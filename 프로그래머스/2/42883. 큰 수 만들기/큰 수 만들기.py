@@ -12,7 +12,7 @@ def solution(number, k):
             stack.pop()
             count += 1
         stack.append(x)
-    if len(stack) > len(number) - k:
-        return ''.join(map(str,stack))[:-k]
+    if k - count > 0: # 아직 덜 뺀 개수
+        return ''.join(map(str,stack))[:-(k - count)]
     else:
         return ''.join(map(str,stack))
