@@ -1,32 +1,30 @@
-# genre_play_dict 
-# genre_song_dict 
-from collections import defaultdict
+# 장르 별 Top2
+# 장르 > 재생 수 (재생 수 같다면 고유번호 낮은 기준)
+
+from collections import defaultdict as dd
+
+#def for_sort(x):
+    
 
 def solution(genres, plays):
-    genre_play_dict = defaultdict(int)
-    genre_song_dict = defaultdict(list)
-
-    # 순회
+    
+    # 1.
+    # 장르 재생수 defaultdict
+    # 장르별 재생 수와 고유번호
+    # 이 둘의 한 번의 순회로
+    
+    play_of_genre = dd(int)
+    play_and_idx = dd(list)
+    
     for idx, genre in enumerate(genres):
-        genre_play_dict[genre] += plays[idx]
-        genre_song_dict[genre].append((idx, plays[idx])) # 고유번호, 재생수
-
-    # dict => list => 정렬
-    genre_play_list = list(genre_play_dict.items())
-    genre_play_list.sort(key = lambda x: x[1], reverse = True) ## 문법
-    """
-    lambda x: x[1]
-    =
-    def func(x):
-        return x[1]
-    """
+        play_of_genre[genre] += plays[idx]
+        play_and_idx[genre].append((plays[idx], idx)) #(재생 수, 고유번호)
+    
     answer = []
-    for genre, play in genre_play_list: # 원소는 튜플, play는 안씀
-        # 고유번호, 재생수
-        genre_song_dict[genre].sort(key = lambda x: (x[1], -x[0]), reverse = True) # 마이너스!
-        # 1차 기준 x[1] => 재생수는 내림차
-        # 2차 기준 x[0] => 고유번호는 오름차, 
-        # 1차 기준 위상 동일 => 2차 기준 비교
-        for x in genre_song_dict[genre][:2]:
-            answer.append(x[0])
+    for item in sorted(play_of_genre.items(), key = lambda x: -x[1]):
+        genre = item[0]
+        answer += [x[1] for x in sorted( play_and_idx[genre], key = lambda x: (-x[0],x[1]) )[:2]]
+
     return answer
+    
+    
