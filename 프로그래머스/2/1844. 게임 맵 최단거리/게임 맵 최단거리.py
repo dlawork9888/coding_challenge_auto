@@ -14,3 +14,5 @@ def solution(game_map):
                     q.append((next_row, next_col))
                     game_map[next_row][next_col] = game_map[now_row][now_col] + 1
     return -1 if game_map[-1][-1] == 1 or game_map[-1][-1] == 0 else game_map[-1][-1]
+
+#visited 배열 없이 푸는 법
