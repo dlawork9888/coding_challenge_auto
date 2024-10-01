@@ -11,25 +11,22 @@ for _ in range(M):
     adj_list[u].append(v)
     adj_list[v].append(u)
     
-# 오름차순으로 방문 -> 큰거 거 먼저 스택에 들어감
 for key in adj_list.keys():
-    adj_list[key].sort()
-
-import sys
-sys.setrecursionlimit(150000)
+    adj_list[key].sort(reverse = True)
     
-# DFS
+    
 visited = [0 for _ in range(N+1)]
-count = [1]
 
-def dfs(now_node):
-    visited[now_node] = count[0]
-    count[0] += 1
-    for adj_node in adj_list[now_node]:
-        if visited[adj_node] == 0:
-            dfs(adj_node)
-            
-dfs(R)
+stack = []
+stack.append(R)
 
+count = 1
+while stack:
+    now_node = stack.pop()
+    if visited[now_node] == 0:
+        visited[now_node] = count # 방문 순서 표시
+        count += 1 
+        for adj_node in adj_list[now_node]: # 주변 노드에 대해
+            stack.append(adj_node)
 for order in visited[1:]:
     print(order)
