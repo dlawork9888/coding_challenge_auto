@@ -1,28 +1,17 @@
-
-
 def solution(n, times):
-
     times.sort()
-    min_time = 0
-    max_time = times[-1]
+    max_time = times[-1]*n
+    min_time = times[0]
     
-    start_time = min_time * n
-    end_time = max_time * n
-    
-    
-    def full(now_time):
-        count = 0
+    while min_time <= max_time:
+        mid_time = (max_time + min_time)//2
+        hm_mans = 0
         for time in times:
-            count += now_time//time
-        return count
+            hm_mans += mid_time//time
+        #print(f'hm_mans: {hm_mans}')
+        if hm_mans >= n:
+            max_time = mid_time - 1
+        else:
+            min_time = mid_time + 1
     
-    
-    while start_time < end_time:
-        mid_time = (start_time + end_time)//2 
-        if full(mid_time) >= n: # 시간 너무 많이 줬다
-            end_time = mid_time
-        else: # 시간 너무 적게 줬다
-            start_time = mid_time + 1
-            
-    return start_time
-             
+    return min_time
